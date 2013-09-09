@@ -4,6 +4,8 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+import yubo.concurrent.annotations.GuardedBy;
+
 public class TestSemaphore {
 
 	/**
@@ -43,8 +45,10 @@ public class TestSemaphore {
 			for (int i = 0; i < items.length; i++)
 				items[i] = new Object();
 		}
-
+		
+		@GuardedBy("this")
 		protected Object[] items = new Object[MAX_AVAILABLE];
+		@GuardedBy("this")
 		protected boolean[] used = new boolean[MAX_AVAILABLE];
 
 		protected synchronized Object getNextAvailableItem() {
